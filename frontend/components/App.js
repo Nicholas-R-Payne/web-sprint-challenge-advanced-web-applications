@@ -38,7 +38,14 @@ export default function App() {
     // On success, we should set the token to local storage in a 'token' key,
     // put the server success message in its proper state, and redirect
     // to the Articles screen. Don't forget to turn off the spinner!
-  }
+    axios.post(loginUrl, { username, password })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    }
 
   const getArticles = () => {
     // ✨ implement
@@ -80,7 +87,7 @@ export default function App() {
           <NavLink id="articlesScreen" to="/articles">Articles</NavLink>
         </nav>
         <Routes>
-          <Route path="/" element={<LoginForm />} />
+          <Route path="/" element={<LoginForm login={login} />} />
           <Route path="articles" element={
             <>
               <ArticleForm />
