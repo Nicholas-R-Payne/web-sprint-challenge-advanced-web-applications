@@ -40,7 +40,9 @@ export default function App() {
     // to the Articles screen. Don't forget to turn off the spinner!
     axios.post(loginUrl, { username, password })
       .then(res => {
-        console.log(res)
+        const token = res.data.token
+        window.localStorage.setItem('token', token)
+        navigate('/articles')
       })
       .catch(err => {
         console.error(err)
