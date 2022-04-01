@@ -79,9 +79,9 @@ export default function App() {
     // to inspect the response from the server.
   }
 
-  const updateArticle = ({ article_id, article }) => {
+  const updateArticle = ({ article_id }) => {
     // ✨ implement
-    // You got this!
+    setCurrentArticleId(article_id)
   }
 
   const deleteArticle = article_id => {
@@ -117,6 +117,7 @@ export default function App() {
               <ArticleForm />
               <Articles
                 getArticles={getArticles}
+                updateArticle={updateArticle}
                 deleteArticle={deleteArticle}
                 articles={articles}
               />
