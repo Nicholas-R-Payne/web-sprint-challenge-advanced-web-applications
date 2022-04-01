@@ -51,7 +51,7 @@ export default function App() {
         redirectToArticles()
       })
       .catch(err => {
-        console.error(err)
+        setMessage(err.response.data.message)
       })
       .finally(() => {
         setSpinnerOn(false)
@@ -73,6 +73,7 @@ export default function App() {
     axiosWithAuth().get(articlesUrl)
       .then(res => {
         setArticles(res.data.articles)
+        setMessage(res.data.message)
       })
       .catch(err => {
         setMessage(err.response.data.message)
@@ -90,6 +91,7 @@ export default function App() {
     axiosWithAuth().post(articlesUrl, article)
       .then(res => {
         setArticles([...articles, res.data.article])
+        setMessage(res.data.message)
       })
       .catch(err => {
         setMessage(err.response.data.message)
