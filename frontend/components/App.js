@@ -67,8 +67,9 @@ export default function App() {
         setArticles(res.data.articles)
       })
       .catch(err => {
-        console.error(err)
+        setMessage(err.response.data.message)
       }) 
+      // STILL NEEDS SPINNER
   }
 
   const postArticle = article => {
@@ -85,6 +86,16 @@ export default function App() {
 
   const deleteArticle = article_id => {
     // ✨ implement
+    axiosWithAuth().delete(`${articlesUrl}/${article_id}`)
+      .then(res => {
+        setMessage(res.data.message)
+        setArticles(articles.filter(art => {
+          return art.article_id !== article_id
+        }))
+      })
+      .catch(err => {
+        setMessage(err.response.data.message)
+      })
   }
 
   return (
@@ -106,6 +117,7 @@ export default function App() {
               <ArticleForm />
               <Articles
                 getArticles={getArticles}
+                deleteArticle={deleteArticle}
                 articles={articles}
               />
             </>
