@@ -50,6 +50,7 @@ export default function App() {
       .catch(err => {
         console.error(err)
       })
+      // STILL NEEDS SPINNER
     }
 
   const getArticles = () => {
@@ -61,6 +62,13 @@ export default function App() {
     // If something goes wrong, check the status of the response:
     // if it's a 401 the token might have gone bad, and we should redirect to login.
     // Don't forget to turn off the spinner!
+    axiosWithAuth().get(articlesUrl)
+      .then(res => {
+        setArticles(res.data.articles)
+      })
+      .catch(err => {
+        console.error(err)
+      }) 
   }
 
   const postArticle = article => {
@@ -96,7 +104,10 @@ export default function App() {
           <Route path="articles" element={
             <>
               <ArticleForm />
-              <Articles />
+              <Articles
+                getArticles={getArticles}
+                articles={articles}
+              />
             </>
           } />
         </Routes>
