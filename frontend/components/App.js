@@ -77,6 +77,38 @@ export default function App() {
     // The flow is very similar to the `getArticles` function.
     // You'll know what to do! Use log statements or breakpoints
     // to inspect the response from the server.
+    axiosWithAuth().post(articlesUrl, article)
+      .then(res => {
+        setArticles([...articles, res.data.article])
+      })
+      .catch(err => {
+        setMessage(err.response.data.message)
+      })
+  }
+
+  const putArticle = article => {
+    const { article_id, ...changes } = article
+    axiosWithAuth().put(`${articlesUrl}/${article_id}`, changes)
+      .then(res => {
+        setArticles(articles.map(art => {
+          return art.articles_id === article_id
+            ? res.data.article
+            : art
+        }))
+        setMessage(res.data.message)
+        setCurrentArticleId(null)
+      })
+      .catch(err => {
+        setMessage(err.response.data.message)
+      })
+  }
+
+  const onSubmit = article => {
+    if(currentArticleId) {
+      putArticle(article)
+    } else {
+      postArticle(article)
+    }
   }
 
   const updateArticle = ({ article_id }) => {
@@ -114,7 +146,10 @@ export default function App() {
           <Route path="/" element={<LoginForm login={login} />} />
           <Route path="articles" element={
             <>
-              <ArticleForm />
+              <ArticleForm
+                onSubmit={onSubmit}
+                currentArticle={articles.find(art => art.article_id === currentArticleId)}
+              />
               <Articles
                 getArticles={getArticles}
                 updateArticle={updateArticle}
