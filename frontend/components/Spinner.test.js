@@ -3,7 +3,5 @@
 import Spinner from './Spinner'
 
 test('sanity', () => {
-  // expect(true).toBe(false)
+  expect(true).toBe(false)
 })
-
-// COME BACK TO THIS
