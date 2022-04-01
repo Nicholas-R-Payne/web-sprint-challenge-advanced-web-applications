@@ -30,8 +30,8 @@ export default function App() {
     // In any case, we should redirect the browser back to the login screen,
     // using the helper above.
     window.localStorage.removeItem('token')
+    setMessage('Goodbye!')
     redirectToLogin()
-    // STILL NEEDS MESSAGE
   }
 
   const login = ({ username, password }) => {
@@ -41,6 +41,7 @@ export default function App() {
     // On success, we should set the token to local storage in a 'token' key,
     // put the server success message in its proper state, and redirect
     // to the Articles screen. Don't forget to turn off the spinner!
+    setMessage('')
     setSpinnerOn(true)
 
     axios.post(loginUrl, { username, password })
@@ -66,6 +67,7 @@ export default function App() {
     // If something goes wrong, check the status of the response:
     // if it's a 401 the token might have gone bad, and we should redirect to login.
     // Don't forget to turn off the spinner!
+    setMessage('')
     setSpinnerOn(true)
 
     axiosWithAuth().get(articlesUrl)

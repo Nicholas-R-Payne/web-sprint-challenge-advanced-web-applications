@@ -7,6 +7,7 @@ export default function ArticleForm(props) {
   const [values, setValues] = useState(initialFormValues)
   // ✨ where are my props? Destructure them here
   const { onSubmit, currentArticle } = props
+  console.log(values)
 
   useEffect(() => {
     // ✨ implement
@@ -33,8 +34,11 @@ export default function ArticleForm(props) {
   const isDisabled = () => {
     // ✨ implement
     // Make sure the inputs have some values
-    return false
-    // COME BACK TO THIS
+    if(values.title !== '' && values.text !== '' && values.topic !== '') {
+      return false
+    } else {
+      return true
+    }
   }
 
   return (
