@@ -41,6 +41,8 @@ export default function App() {
     // On success, we should set the token to local storage in a 'token' key,
     // put the server success message in its proper state, and redirect
     // to the Articles screen. Don't forget to turn off the spinner!
+    setSpinnerOn(true)
+
     axios.post(loginUrl, { username, password })
       .then(res => {
         const token = res.data.token
@@ -50,7 +52,9 @@ export default function App() {
       .catch(err => {
         console.error(err)
       })
-      // STILL NEEDS SPINNER
+      .finally(() => {
+        setSpinnerOn(false)
+      })
     }
 
   const getArticles = () => {
@@ -62,14 +66,18 @@ export default function App() {
     // If something goes wrong, check the status of the response:
     // if it's a 401 the token might have gone bad, and we should redirect to login.
     // Don't forget to turn off the spinner!
+    setSpinnerOn(true)
+
     axiosWithAuth().get(articlesUrl)
       .then(res => {
         setArticles(res.data.articles)
       })
       .catch(err => {
         setMessage(err.response.data.message)
-      }) 
-      // STILL NEEDS SPINNER
+      })
+      .finally(() => {
+        setSpinnerOn(false)
+      })
   }
 
   const postArticle = article => {
@@ -133,7 +141,7 @@ export default function App() {
   return (
     // ✨ fix the JSX: `Spinner`, `Message`, `LoginForm`, `ArticleForm` and `Articles` expect props ❗
     <React.StrictMode>
-      <Spinner />
+      <Spinner spinnerOn={spinnerOn} />
       <Message message={message}/>
       <button id="logout" onClick={logout}>Logout from app</button>
       <div id="wrapper" style={{ opacity: spinnerOn ? "0.25" : "1" }}> {/* <-- do not change this line */}
